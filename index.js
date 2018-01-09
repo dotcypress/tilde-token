@@ -10,6 +10,7 @@ function serialize (data) {
     return querystring.stringify(data)
   }
   const normalized = Object.keys(data)
+    .filter((key) => typeof data[key] !== 'undefined')
     .sort()
     .reduce((acc, key) => Object.assign(acc, { [key]: data[key] }), {})
   return querystring.stringify(normalized)

@@ -44,7 +44,7 @@ test('encode with object payload', (t) => {
 })
 
 test('encode with object payload (keys order)', (t) => {
-  const token = sign({exp: '1000000', uid: '1234567890'}, 'bar')
+  const token = sign({exp: '1000000', uid: '1234567890', junk: undefined}, 'bar')
   t.is(token, '~Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890')
 })
 
