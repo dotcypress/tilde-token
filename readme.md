@@ -54,16 +54,16 @@ console.log('result', ok, data)
 
 ## Token structure
 
-Example token: `~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
+Example: `~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
 
 ```
-┌────────────────┬───────────────────────────┬───────────────┐
-│ prefix(1 byte) │    signature(86 bytes)    │ payload(vary) │
-├────────────────┼───────────────────────────┼───────────────┤
-│       ~        │ ~qlHxEVZjv983...Bxgsz4sAg │     foo       │
-└────────────────┴───────────────────────────┴───────────────┘
+┌────────────────┬────────────────────────────────────┬───────────────┐
+│     prefix     │             signature              │    payload    │
+├────────────────┼────────────────────────────────────┼───────────────┤
+│       ~        │ qlHxEVZjv983RJcqQ...xcPssBxgsz4sAg │     foo       │
+└────────────────┴────────────────────────────────────┴───────────────┘
 ```
 
-* `prefix` - just tilde;
-* `signature` - payload signature (ed25519, base64-encoded, without padding);
-* `payload` - urlencoded/urlescaped data;
+* `prefix`(1 byte) - tilde itself;
+* `signature`(86 bytes) - payload signature (ed25519, base64-encoded, without padding);
+* `payload`(vary) - urlencoded/urlescaped data;
