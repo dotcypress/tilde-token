@@ -63,7 +63,7 @@ function decode (token) {
 function safeDecode (token) {
   try {
     const data = decode(token)
-    return { ok: true, ...data }
+    return Object.assign({ ok: true }, data)
   } catch (err) {
     return { ok: false }
   }
