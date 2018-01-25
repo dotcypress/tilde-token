@@ -1,5 +1,5 @@
 import test from 'ava'
-import { sign, decode, verify, makeKeypair } from '../'
+import { sign, decode, safeDecode, verify, makeKeypair } from '../'
 
 test('throw error with empty password', (t) => {
   t.throws(() => sign(null, 'bar'))
@@ -59,10 +59,20 @@ test('decode token', (t) => {
   t.deepEqual(data, 'fo=o')
 })
 
-test('decode token', (t) => {
-  const { signature, data } = decode('~Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890')
+test('safe decode token', (t) => {
+  const { ok, signature, data } = safeDecode('~hKCl4E6c-K_CE9DLMBIskGmuIW26C9MCTjTT2f0g1dY-4T3N_CTl3rauKZ1oZQSN12G1DUWexyoWEK1rQ0UZAAfo%3Do')
+  t.true(ok)
   t.is(signature.length, 64)
-  t.deepEqual(data, {exp: '1000000', uid: '1234567890'})
+  t.deepEqual(data, 'fo=o')
+})
+
+test('decode mailformed token', (t) => {
+  t.throws(() => decode('Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890'))
+})
+
+test('safe decode mailformed token', (t) => {
+  const { ok } = safeDecode('Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890')
+  t.false(ok)
 })
 
 test('verify token', (t) => {

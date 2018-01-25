@@ -60,6 +60,15 @@ function decode (token) {
   }
 }
 
+function safeDecode (token) {
+  try {
+    const data = decode(token)
+    return { ok: true, ...data }
+  } catch (err) {
+    return { ok: false }
+  }
+}
+
 function verifier (secret) {
   if (!secret) {
     throw new Error('Missing verification key')
@@ -90,5 +99,6 @@ module.exports = {
   verifier,
   verify,
   decode,
+  safeDecode,
   makeKeypair
 }
