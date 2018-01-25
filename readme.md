@@ -20,6 +20,16 @@
 
 ## Usage
 
+### API
+
+##### `signer(seed) -> fn(data)`
+##### `sign(data, seed)`
+##### `verifier(pubKeyOrSeed)`
+##### `verify(token, pubKeyOrSeed)`
+##### `decode(token)`
+##### `safeDecode(token)`
+##### `makeKeypair(seed)`
+
 ```js
 
 import { sign, verify, makeKeypair } from 'tilde-token'
