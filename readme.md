@@ -1,16 +1,16 @@
+# `~token`
 [![NPM Version](https://img.shields.io/npm/v/tilde-token.svg?style=flat-square)](https://www.npmjs.com/package/tilde-token)
 [![node](https://img.shields.io/node/v/tilde-token.svg?style=flat-square)](https://www.npmjs.com/package/tilde-token)
 [![Build Status](https://img.shields.io/travis/kitcast/tilde-token.svg?branch=master&style=flat-square)](https://travis-ci.org/kitcast/tilde-token)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
 
-# ~token
-
-> 🔐 TildeToken: Lightweight auth tokens
+> 🔐 Lightweight secure tokens
 
 ## Features
 
 * Lightweight
+* Secure
 * Human readable (almost)
 * Load balancer friendly
 
@@ -18,21 +18,15 @@
 
 `$ npm install tilde-token`
 
+or
+
+`$ yarn add tilde-token`
+
 ## Usage
-
-### API
-
-##### `signer(seed) -> fn(data)`
-##### `sign(data, seed)`
-##### `verifier(pubKeyOrSeed)`
-##### `verify(token, pubKeyOrSeed)`
-##### `decode(token)`
-##### `safeDecode(token)`
-##### `makeKeypair(seed)`
 
 ```js
 
-import { sign, verify, makeKeypair } from 'tilde-token'
+const { sign, verify, makeKeypair } = require('tilde-token')
 
 // Create token
 const token = sign('foo', 'secret')
@@ -48,8 +42,9 @@ const { ok, data } = verify(token, publicKey)
 
 ```js
 
-import { signer, verifier } from 'tilde-token'
+const { signer, verifier } = require('tilde-token')
 
+// Sign/Veryfy factories
 const sign = signer('secret')
 const verify = verifier('secret')
 
@@ -61,6 +56,16 @@ const { ok, data } = verify(token)
 console.log('result', ok, data)
 
 ```
+
+### API
+
+##### `signer(seed) -> fn(data)`
+##### `sign(data, seed)`
+##### `verifier(pubKeyOrSeed)`
+##### `verify(token, pubKeyOrSeed)`
+##### `decode(token)`
+##### `safeDecode(token)`
+##### `makeKeypair(seed)`
 
 ## Token structure
 

@@ -10,15 +10,16 @@ test('throw error with empty password', (t) => {
 })
 
 test('throw error with mailformed token', (t) => {
-  const { ok } = verify('~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAg', 'bar')
+  const { ok, data } = verify('~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAg', 'bar')
   t.false(ok)
+  t.is(data, undefined)
 })
 
 test('throw error with empty data', (t) => {
   t.throws(() => sign(null, 'bar'))
 })
 
-test('throw error with empty token', (t) => {
+test('empty token', (t) => {
   const { ok } = verify(null, 'bar')
   t.false(ok)
 })
@@ -53,7 +54,7 @@ test('encode with array payload', (t) => {
   t.is(token, '~4dxwoKlLzbpWUwuCsnh1mgoazvkpUDjx3YdsRA7hJc8wlH7EkQncHjgVYNL7AJsijiAipO6tRdbFhGQMm63PBg0=foo&1=bar&2=42')
 })
 
-test('decode token', (t) => {
+test('decode token with equals sign', (t) => {
   const { signature, data } = decode('~hKCl4E6c-K_CE9DLMBIskGmuIW26C9MCTjTT2f0g1dY-4T3N_CTl3rauKZ1oZQSN12G1DUWexyoWEK1rQ0UZAAfo%3Do')
   t.is(signature.length, 64)
   t.deepEqual(data, 'fo=o')
@@ -75,16 +76,27 @@ test('safe decode mailformed token', (t) => {
   t.false(ok)
 })
 
-test('verify token', (t) => {
+test('verify string token', (t) => {
   const token = sign('foo', 'bar')
-  const { ok } = verify(token, 'bar')
+  const { ok, data } = verify(token, 'bar')
   t.true(ok)
+  t.deepEqual(data, 'foo')
 })
 
-test('verify token', (t) => {
+test('verify object token', (t) => {
   const { ok, data } = verify('~Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890', 'bar')
   t.true(ok)
   t.deepEqual(data, { exp: '1000000', uid: '1234567890' })
+})
+
+test('verify array token', (t) => {
+  const { ok, data } = verify('~4dxwoKlLzbpWUwuCsnh1mgoazvkpUDjx3YdsRA7hJc8wlH7EkQncHjgVYNL7AJsijiAipO6tRdbFhGQMm63PBg0=foo&1=bar&2=42', 'bar')
+  t.true(ok)
+  t.deepEqual(data, {
+    0: 'foo',
+    1: 'bar',
+    2: '42'
+  })
 })
 
 test('verify token with pubkey', (t) => {
