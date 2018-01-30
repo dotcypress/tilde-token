@@ -1,4 +1,4 @@
-# `~token`
+# `~ token`
 [![NPM Version](https://img.shields.io/npm/v/tilde-token.svg?style=flat-square)](https://www.npmjs.com/package/tilde-token)
 [![node](https://img.shields.io/node/v/tilde-token.svg?style=flat-square)](https://www.npmjs.com/package/tilde-token)
 [![Build Status](https://img.shields.io/travis/kitcast/tilde-token.svg?branch=master&style=flat-square)](https://travis-ci.org/kitcast/tilde-token)
@@ -26,10 +26,20 @@ or
 
 ```js
 
-const { sign, verify, makeKeypair } = require('tilde-token')
+const { 
+  sign, 
+  signer, 
+  verify, 
+  verifier, 
+  decode, 
+  makeKeypair 
+} = require('tilde-token')
 
 // Create token
 const token = sign('foo', 'secret')
+
+// Decode token without signature verification
+const { ok, data, signature } = decode(token)
 
 // Verify token
 const { ok, data } = verify(token, 'secret')
@@ -38,36 +48,18 @@ const { ok, data } = verify(token, 'secret')
 const { publicKey } = makeKeypair('secret')
 const { ok, data } = verify(token, publicKey)
 
-```
-
-```js
-
-const { signer, verifier } = require('tilde-token')
-
 // Sign/Veryfy factories
-const sign = signer('secret')
-const verify = verifier('secret')
+const signToken = signer('secret')
+const verifyToken = verifier('secret')
 
 // Create token
-const token = sign({uid: '42', ssid: 'deadbeef'})
+const token = signToken({uid: '42', ssid: 'deadbeef'})
 
 // Decode and verify token
-const { ok, data } = verify(token)
+const { ok, data } = verifyToken(token)
 console.log('result', ok, data)
 
 ```
-
-### API
-
-##### `signer(seed) -> fn(data)`
-##### `sign(data, seed)`
-##### `verifier(pubKeyOrSeed)`
-##### `verify(token, pubKeyOrSeed)`
-##### `decode(token)`
-##### `safeDecode(token)`
-##### `makeKeypair(seed)`
-
-## Token structure
 
 Example: `~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
 

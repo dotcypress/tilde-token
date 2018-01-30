@@ -9,11 +9,12 @@ function serialize (data) {
   if (Array.isArray(data)) {
     return querystring.stringify(data)
   }
-  const normalized = Object.keys(data)
-    .filter((key) => typeof data[key] !== 'undefined')
-    .sort()
-    .reduce((acc, key) => Object.assign(acc, { [key]: data[key] }), {})
-  return querystring.stringify(normalized)
+  return querystring.stringify(
+    Object.keys(data)
+      .filter((key) => typeof data[key] !== 'undefined')
+      .sort()
+      .reduce((acc, key) => Object.assign(acc, { [key]: data[key] }), {})
+  )
 }
 
 function deserialize (payload) {
@@ -50,22 +51,14 @@ function sign (data, secret) {
 
 function decode (token) {
   if (typeof token !== 'string' || token[0] !== '~' || token.length < 88) {
-    throw new Error('Mailformed token')
+    return { ok: false, err: new Error('Mailformed token') }
   }
   const payload = token.slice(87)
   return {
+    ok: true,
     payload,
     data: deserialize(payload),
     signature: Buffer.from(token.slice(1, 87), 'base64')
-  }
-}
-
-function safeDecode (token) {
-  try {
-    const data = decode(token)
-    return Object.assign({ ok: true }, data)
-  } catch (err) {
-    return { ok: false }
   }
 }
 
@@ -73,16 +66,13 @@ function verifier (secret) {
   if (!secret) {
     throw new Error('Missing verification key')
   }
-  const publicKey = Buffer.isBuffer(secret) ? secret : makeKeypair(secret).publicKey
+  const pubKey = Buffer.isBuffer(secret) ? secret : makeKeypair(secret).publicKey
   return (token) => {
     try {
       const { signature, payload, data } = decode(token)
-      const ok = ed25519.Verify(
-        Buffer.from(payload, 'utf8'),
-        signature,
-        publicKey
-      )
-      return { ok, data }
+      return ed25519.Verify(Buffer.from(payload, 'utf8'), signature, pubKey)
+        ? { ok: true, data }
+        : { ok: false, err: new Error('Invalid signature') }
     } catch (err) {
       return { ok: false, error: err }
     }
@@ -99,6 +89,5 @@ module.exports = {
   verifier,
   verify,
   decode,
-  safeDecode,
   makeKeypair
 }
