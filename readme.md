@@ -61,14 +61,16 @@ console.log('result', ok, data)
 
 ```
 
-Example: `~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
+Example token:
+
+`~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
 
 ```
-┌────────────────┬────────────────────────────────────┬───────────────┐
-│     prefix     │             signature              │    payload    │
-├────────────────┼────────────────────────────────────┼───────────────┤
-│       ~        │ qlHxEVZjv983RJcqQ...xcPssBxgsz4sAg │     foo       │
-└────────────────┴────────────────────────────────────┴───────────────┘
+┌────────────────┬────────────────────────────────┬───────────────┐
+│     prefix     │           signature            │    payload    │
+├────────────────┼────────────────────────────────┼───────────────┤
+│       ~        │ qlHxEVZjv3RJcqQ...xcPssBxz4sAg │     foo       │
+└────────────────┴────────────────────────────────┴───────────────┘
 ```
 
 * `prefix`(1 byte) - tilde itself;
