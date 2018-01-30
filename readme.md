@@ -12,7 +12,6 @@
 * Lightweight
 * Secure
 * Human readable (almost)
-* Load balancer friendly
 
 ## Installation
 
