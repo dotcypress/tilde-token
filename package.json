@@ -1,10 +1,15 @@
 {
   "name": "tilde-token",
   "description": "Lightweight secure tokens",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Vitaly Domnikov <vitaly@kitcast.tv>",
   "license": "MIT",
   "main": "index.js",
+  "keywords": [
+    "ed25519",
+    "token",
+    "jwt"
+  ],
   "scripts": {
     "precommit": "npm run lint && npm test",
     "lint": "eslint .",
@@ -13,6 +18,9 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:kitcast/tilde-token.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kitcast/tilde-token/issues"
   },
   "engines": {
     "node": ">=6.11.3"

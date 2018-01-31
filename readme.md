@@ -11,6 +11,7 @@
 
 * Lightweight
 * Secure
+* Tamper Resistant
 * Human readable (almost)
 
 ## Installation

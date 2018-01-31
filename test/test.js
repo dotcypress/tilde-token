@@ -54,15 +54,15 @@ test('encode with array payload', (t) => {
   t.is(token, '~4dxwoKlLzbpWUwuCsnh1mgoazvkpUDjx3YdsRA7hJc8wlH7EkQncHjgVYNL7AJsijiAipO6tRdbFhGQMm63PBg0=foo&1=bar&2=42')
 })
 
-test('decode token with equals sign', (t) => {
-  const { signature, data } = decode('~hKCl4E6c-K_CE9DLMBIskGmuIW26C9MCTjTT2f0g1dY-4T3N_CTl3rauKZ1oZQSN12G1DUWexyoWEK1rQ0UZAAfo%3Do')
+test('decode token', (t) => {
+  const { ok, signature, data } = decode('~hKCl4E6c-K_CE9DLMBIskGmuIW26C9MCTjTT2f0g1dY-4T3N_CTl3rauKZ1oZQSN12G1DUWexyoWEK1rQ0UZAAfo%3Do')
+  t.true(ok)
   t.is(signature.length, 64)
   t.deepEqual(data, 'fo=o')
 })
 
-test('safe decode token', (t) => {
-  const { ok, signature, data } = decode('~hKCl4E6c-K_CE9DLMBIskGmuIW26C9MCTjTT2f0g1dY-4T3N_CTl3rauKZ1oZQSN12G1DUWexyoWEK1rQ0UZAAfo%3Do')
-  t.true(ok)
+test('decode token with equals sign', (t) => {
+  const { signature, data } = decode('~hKCl4E6c-K_CE9DLMBIskGmuIW26C9MCTjTT2f0g1dY-4T3N_CTl3rauKZ1oZQSN12G1DUWexyoWEK1rQ0UZAAfo%3Do')
   t.is(signature.length, 64)
   t.deepEqual(data, 'fo=o')
 })
