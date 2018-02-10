@@ -4,15 +4,15 @@
 [![Build Status](https://img.shields.io/travis/kitcast/tilde-token.svg?branch=master&style=flat-square)](https://travis-ci.org/kitcast/tilde-token)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-
 > 🔐 Lightweight secure tokens
 
 ## Features
 
 * Lightweight
 * Secure
+* Blazing fast
 * Tamper Resistant
-* Human readable (almost)
+* Load balancer friendly
 
 ## Installation
 
@@ -21,6 +21,22 @@
 or
 
 `$ yarn add tilde-token`
+
+## Token structure
+
+Example token: `~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
+
+```
+┌────────────────┬────────────────────────────────┬───────────────┐
+│     prefix     │           signature            │    payload    │
+├────────────────┼────────────────────────────────┼───────────────┤
+│       ~        │ qlHxEVZjv3RJcqQ...xcPssBxz4sAg │     foo       │
+└────────────────┴────────────────────────────────┴───────────────┘
+```
+
+* `prefix`(1 byte) - tilde itself;
+* `signature`(86 bytes) - payload signature (ed25519, base64-encoded, without padding);
+* `payload`(vary) - urlencoded/urlescaped data;
 
 ## Usage
 
@@ -60,19 +76,3 @@ const { ok, data } = verifyToken(token)
 console.log('result', ok, data)
 
 ```
-
-Example token:
-
-`~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5DDnQbmPnFxcPssBxgsz4sAgfoo`
-
-```
-┌────────────────┬────────────────────────────────┬───────────────┐
-│     prefix     │           signature            │    payload    │
-├────────────────┼────────────────────────────────┼───────────────┤
-│       ~        │ qlHxEVZjv3RJcqQ...xcPssBxz4sAg │     foo       │
-└────────────────┴────────────────────────────────┴───────────────┘
-```
-
-* `prefix`(1 byte) - tilde itself;
-* `signature`(86 bytes) - payload signature (ed25519, base64-encoded, without padding);
-* `payload`(vary) - urlencoded/urlescaped data;
