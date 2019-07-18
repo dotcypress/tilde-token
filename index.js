@@ -46,10 +46,11 @@ function loadKeyPair (key) {
   }
 }
 
-function signer (key) {
-  if (!key) {
+function signer (keyObj) {
+  if (!keyObj) {
     throw new Error('Missing key')
   }
+  const key = keyObj instanceof crypto.KeyObject ? keyObj : crypto.createPrivateKey(keyObj)
   return (data) => {
     if (!data) {
       throw new Error('Missing data')
@@ -62,10 +63,11 @@ function signer (key) {
   }
 }
 
-function verifier (key) {
-  if (!key) {
+function verifier (keyObj) {
+  if (!keyObj) {
     throw new Error('Missing key')
   }
+  const key = keyObj instanceof crypto.KeyObject ? keyObj : crypto.createPrivateKey(keyObj)
   return (token) => {
     try {
       const { signature, payload, data } = decode(token)
