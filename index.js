@@ -1,6 +1,5 @@
-const { createHash } = require('crypto')
+const crypto = require('crypto')
 const querystring = require('querystring')
-const ed25519 = require('ed25519')
 
 function serialize (data) {
   if (typeof data === 'string') {
@@ -23,32 +22,6 @@ function deserialize (payload) {
     : querystring.unescape(payload)
 }
 
-function makeKeypair (secret) {
-  const seed = createHash('sha256').update(secret).digest()
-  return ed25519.MakeKeypair(seed)
-}
-
-function signer (secret) {
-  if (!secret) {
-    throw new Error('Missing secret')
-  }
-  const keypair = makeKeypair(secret)
-  return (data) => {
-    if (!data) {
-      throw new Error('Missing data')
-    }
-    const payload = serialize(data)
-    const signature = ed25519.Sign(Buffer.from(payload, 'utf8'), keypair)
-      .toString('base64')
-      .replace(/=/g, '')
-    return `~${signature}${payload}`
-  }
-}
-
-function sign (data, secret) {
-  return signer(secret)(data)
-}
-
 function decode (token) {
   if (typeof token !== 'string' || token[0] !== '~' || token.length < 88) {
     return { ok: false, err: new Error('Mailformed token') }
@@ -62,15 +35,41 @@ function decode (token) {
   }
 }
 
-function verifier (secret) {
-  if (!secret) {
-    throw new Error('Missing verification key')
+function generateKeyPair () {
+  return crypto.generateKeyPairSync('ed25519')
+}
+
+function loadKeyPair (key) {
+  return {
+    publicKey: crypto.createPublicKey(key),
+    privateKey: crypto.createPrivateKey(key)
   }
-  const pubKey = Buffer.isBuffer(secret) ? secret : makeKeypair(secret).publicKey
+}
+
+function signer (key) {
+  if (!key) {
+    throw new Error('Missing key')
+  }
+  return (data) => {
+    if (!data) {
+      throw new Error('Missing data')
+    }
+    const payload = Buffer.from(serialize(data), 'utf8')
+    const signature = crypto.sign(null, payload, key)
+      .toString('base64')
+      .replace(/=/g, '')
+    return `~${signature}${payload}`
+  }
+}
+
+function verifier (key) {
+  if (!key) {
+    throw new Error('Missing key')
+  }
   return (token) => {
     try {
       const { signature, payload, data } = decode(token)
-      return ed25519.Verify(Buffer.from(payload, 'utf8'), signature, pubKey)
+      return crypto.verify(null, Buffer.from(payload, 'utf8'), key, signature)
         ? { ok: true, data }
         : { ok: false, err: new Error('Invalid signature') }
     } catch (err) {
@@ -79,8 +78,12 @@ function verifier (secret) {
   }
 }
 
-function verify (token, secret) {
-  return verifier(secret)(token)
+function sign (data, key) {
+  return signer(key)(data)
+}
+
+function verify (token, key) {
+  return verifier(key)(token)
 }
 
 module.exports = {
@@ -89,5 +92,6 @@ module.exports = {
   verifier,
   verify,
   decode,
-  makeKeypair
+  loadKeyPair,
+  generateKeyPair
 }

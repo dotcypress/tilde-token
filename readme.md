@@ -41,32 +41,37 @@ Example token: `~qlHxEVZjv983RJcqQ/uMEHhdshyp7wp0Mwr/tVyKav3ijQA0XzwUxnnqAAXhgt5
 ## Usage
 
 ```js
-
-const { 
-  sign, 
-  signer, 
-  verify, 
-  verifier, 
-  decode, 
-  makeKeypair 
+const {
+  sign,
+  signer,
+  verify,
+  verifier,
+  decode,
+  loadKeyPair,
+  generateKeyPair
 } = require('tilde-token')
 
+// Load keypair
+const { privateKey, publicKey } = loadKeyPair('-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIOAzzaE6rikNTr4ZbEz66rsGMxUfTutx2namfDJpmwD1\n-----END PRIVATE KEY-----')
+
+// Generate keypair
+const { privateKey, publicKey } = generateKeyPair()
+
 // Create token
-const token = sign('foo', 'secret')
+const token = sign('foo', privateKey)
 
 // Decode token without signature verification
 const { ok, data, signature } = decode(token)
 
 // Verify token
-const { ok, data } = verify(token, 'secret')
-
-// Verify token using public key
-const { publicKey } = makeKeypair('secret')
-const { ok, data } = verify(token, publicKey)
+const { ok, data } = verify(token, privateKey)
 
 // Sign/Veryfy factories
-const signToken = signer('secret')
-const verifyToken = verifier('secret')
+const signToken = signer(privateKey)
+const verifyToken = verifier(privateKey)
+
+// Verify token using public key
+const { ok, data } = verify(token, publicKey)
 
 // Create token
 const token = signToken({uid: '42', ssid: 'deadbeef'})

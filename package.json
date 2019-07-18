@@ -1,19 +1,14 @@
 {
   "name": "tilde-token",
   "description": "Lightweight secure tokens",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "author": "Vitaly Domnikov <vitaly@kitcast.tv>",
   "license": "MIT",
   "main": "index.js",
-  "keywords": [
-    "ed25519",
-    "token",
-    "jwt"
-  ],
   "scripts": {
     "precommit": "npm run lint && npm test",
     "lint": "eslint .",
-    "test": "ava test"
+    "test": "ava test/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,19 +18,16 @@
     "url": "https://github.com/kitcast/tilde-token/issues"
   },
   "engines": {
-    "node": ">=6.11.3"
-  },
-  "dependencies": {
-    "ed25519": "0.0.4"
+    "node": ">=12.0.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "eslint": "^4.3.0",
-    "eslint-config-standard": "^10.2.1",
+    "ava": "^2.1.0",
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^13.0.1",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^6.0.0",
-    "eslint-plugin-promise": "^3.3.1",
-    "eslint-plugin-standard": "^3.0.1",
-    "husky": "^0.14.3"
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^3.0.0"
   }
 }
