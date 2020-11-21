@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const querystring = require('querystring')
 
-function serialize (data) {
+function serialize(data) {
   if (typeof data === 'string') {
     return querystring.escape(data)
   }
@@ -16,13 +16,13 @@ function serialize (data) {
   )
 }
 
-function deserialize (payload) {
+function deserialize(payload) {
   return payload.includes('=')
     ? querystring.parse(payload)
     : querystring.unescape(payload)
 }
 
-function decode (token) {
+function decode(token) {
   if (typeof token !== 'string' || token[0] !== '~' || token.length < 88) {
     return { ok: false, err: new Error('Mailformed token') }
   }
@@ -35,18 +35,18 @@ function decode (token) {
   }
 }
 
-function generateKeyPair () {
+function generateKeyPair() {
   return crypto.generateKeyPairSync('ed25519')
 }
 
-function loadKeyPair (key) {
+function loadKeyPair(key) {
   return {
     publicKey: crypto.createPublicKey(key),
     privateKey: crypto.createPrivateKey(key)
   }
 }
 
-function signer (keyObj) {
+function signer(keyObj) {
   if (!keyObj) {
     throw new Error('Missing key')
   }
@@ -63,7 +63,7 @@ function signer (keyObj) {
   }
 }
 
-function verifier (keyObj) {
+function verifier(keyObj) {
   if (!keyObj) {
     throw new Error('Missing key')
   }
@@ -80,11 +80,11 @@ function verifier (keyObj) {
   }
 }
 
-function sign (data, key) {
+function sign(data, key) {
   return signer(key)(data)
 }
 
-function verify (token, key) {
+function verify(token, key) {
   return verifier(key)(token)
 }
 

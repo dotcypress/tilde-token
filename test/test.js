@@ -1,5 +1,5 @@
-import test from 'ava'
-import { sign, decode, verify, generateKeyPair, loadKeyPair } from '../'
+const test = require('ava')
+const { sign, decode, verify, generateKeyPair, loadKeyPair } = require('../')
 
 const { publicKey, privateKey } = loadKeyPair(`
 -----BEGIN PRIVATE KEY-----
@@ -59,11 +59,6 @@ test('decode token', (t) => {
 })
 
 test('decode mailformed token', (t) => {
-  const { ok } = decode('Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890')
-  t.false(ok)
-})
-
-test('safe decode mailformed token', (t) => {
   const { ok } = decode('Lq2jEAAcn/wLXe3uK9mDZS83OOOHVVOhT7LenjRTl+N6fbsohvVsjgQEITan3srP30ZGquUKV4mHfoWtRxRWAQexp=1000000&uid=1234567890')
   t.false(ok)
 })

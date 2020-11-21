@@ -1,7 +1,7 @@
 # `~ token`
 [![NPM Version](https://img.shields.io/npm/v/tilde-token.svg?style=flat-square)](https://www.npmjs.com/package/tilde-token)
 [![node](https://img.shields.io/node/v/tilde-token.svg?style=flat-square)](https://www.npmjs.com/package/tilde-token)
-[![Build Status](https://img.shields.io/travis/kitcast/tilde-token.svg?branch=master&style=flat-square)](https://travis-ci.org/kitcast/tilde-token)
+[![Build Status](https://img.shields.io/travis/dotcypress/tilde-token.svg?branch=master&style=flat-square)](https://travis-ci.org/dotcypress/tilde-token)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
 > 🔐 Lightweight secure tokens
@@ -52,7 +52,11 @@ const {
 } = require('tilde-token')
 
 // Load keypair
-const { privateKey, publicKey } = loadKeyPair('-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIOAzzaE6rikNTr4ZbEz66rsGMxUfTutx2namfDJpmwD1\n-----END PRIVATE KEY-----')
+const { privateKey, publicKey } = loadKeyPair(`
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIOAzzaE6rikNTr4ZbEz66rsGMxUfTutx2namfDJpmwD1
+-----END PRIVATE KEY-----
+`)
 
 // Generate keypair
 const { privateKey, publicKey } = generateKeyPair()

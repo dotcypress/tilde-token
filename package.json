@@ -2,7 +2,7 @@
   "name": "tilde-token",
   "description": "Lightweight secure tokens",
   "version": "2.0.1",
-  "author": "Vitaly Domnikov <vitaly@kitcast.tv>",
+  "author": "Vitaly Domnikov <oss@vitaly.codes>",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -12,22 +12,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:kitcast/tilde-token.git"
+    "url": "git@github.com:dotcypress/tilde-token.git"
   },
   "bugs": {
-    "url": "https://github.com/kitcast/tilde-token/issues"
+    "url": "https://github.com/dotcypress/tilde-token/issues"
   },
   "engines": {
     "node": ">=12.0.0"
   },
   "devDependencies": {
-    "ava": "^2.1.0",
-    "eslint": "^6.0.1",
-    "eslint-config-standard": "^13.0.1",
+    "ava": "^3.13.0",
+    "eslint": "^7.14.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
-    "husky": "^3.0.0"
+    "husky": "^4.3.0"
   }
 }
